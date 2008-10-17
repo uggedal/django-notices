@@ -4,7 +4,7 @@ import urllib, base64, re
 
 def allowed_notice_types():
     if hasattr(settings, 'NOTICE_TYPES'):
-        return settings.URLMESSAGE_TYPES
+        return settings.NOTICE_TYPES
     else:
         return ('success', 'notice', 'error')
 
