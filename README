@@ -1,11 +1,18 @@
 django-notices
---------------
+==============
 
-Provides support for sening small notices to the next redirected
-page. One normally does this after having handeled a successfull
+Provides support for sending small notices to the next redirected
+page. One normally does this after having handled a successful
 POST request. To make the API transparent the original
 HttpResponseRedirect was subclassed with a class that supports
-sending notices:
+sending notices.
+
+
+Usage
+-----
+
+Just use HttpResponseRedirectWithNotice with a keyword argument and
+your notice:
 
     from notices import HttpResponseRedirectWithNotice
     from django.shortcuts import render_to_response
@@ -36,6 +43,10 @@ of success, error, and notice. This can be changed in settings.py:
 
     NOTICE_TYPES = ("success", "failure")
 
+
+Installation
+------------
+
 To install django-notices one have to:
 
 1. add the notices directory to the Python path
@@ -53,9 +64,13 @@ To install django-notices one have to:
         'notices.context_processors.notices',
     )
 
+
+Rationale
+---------
+
 An alternative to django-notices are the bundled messages system
 in django.contrib.auth. My main grief with this solution is
-that it only supports on type of message to be sendt. Another
+that it only supports on type of message to be sent. Another
 problem is that is uses the database, which results in one extra
 query for each page view.
 
@@ -66,4 +81,4 @@ This solution is inspired by merb-core and uses a query parameter
 containing the message. The message is base64 and urlencoded. Be
 aware that it can unsafe to use Django's safe filter to output
 notices with HTML. Use Markdown, Textile et al. to postprocess
-the data if you need to impose strucure in your notices.
+the data if you need to impose structure in your notices.
