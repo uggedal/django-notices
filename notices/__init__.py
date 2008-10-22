@@ -1,5 +1,6 @@
 from django.http import HttpResponseRedirect
 from django.conf import settings
+from django.utils.hashcompat import sha_constructor
 import urllib, base64, re
 
 def allowed_notice_types():
@@ -9,10 +10,17 @@ def allowed_notice_types():
         return ('success', 'notice', 'error')
 
 def pack(str):
-    return urllib.quote_plus(base64.b64encode(str))
+    return urllib.quote_plus(base64.b64encode("%s$%s" % (_hash(str), str)))
 
 def unpack(str):
-    return urllib.unquote_plus(base64.b64decode(str))
+    decoded = urllib.unquote_plus(base64.b64decode(str))
+    digest, plain = decoded.split("$", 1)
+    if not digest or not plain or _hash(plain) != digest:
+        raise ValueError
+    return plain
+
+def _hash(str):
+    return sha_constructor(str + settings.SECRET_KEY).hexdigest()
 
 class HttpResponseRedirectWithNotice(HttpResponseRedirect):
 
