@@ -78,7 +78,5 @@ There are cookie based solutions inspired by Rails available for
 Django, but I don't like using cookies to handle such state.
 
 This solution is inspired by merb-core and uses a query parameter
-containing the message. The message is base64 and urlencoded. Be
-aware that it can unsafe to use Django's safe filter to output
-notices with HTML. Use Markdown, Textile et al. to postprocess
-the data if you need to impose structure in your notices.
+containing the message. The message is base64 and urlencoded in
+addition to being signed with your project's SECRET_KEY in settings.py.
