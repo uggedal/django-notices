@@ -1,0 +1,3 @@
+Run tests from this directory with:
+
+    django-admin.py test --settings=notices.tests.settings

@@ -1,0 +1,20 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <title>
+      django-notices test
+    </title>
+  </head>
+  <body>
+    <h1>django-notices test</h1>
+
+    {% if notices %}
+      <ul class="notices">
+        {% for type, notice in notices.items %}
+        <li class="{{ type }}">{{ notice }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </body>
+</html>
