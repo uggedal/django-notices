@@ -24,3 +24,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
     'notices.context_processors.notices',
 )
+
+SECRET_KEY = '8317g=(AD/FGA/G=ASUG=AHSGha0g234hgQ7gAAFASfa3)!%'
+
+NOTICE_TYPES = ('success', 'notice', 'error')

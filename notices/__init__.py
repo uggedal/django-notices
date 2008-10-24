@@ -16,10 +16,12 @@ def unpack(str):
     decoded = urllib.unquote_plus(base64.b64decode(str))
     digest, plain = decoded.split("$", 1)
     if not digest or not plain or _hash(plain) != digest:
-        raise ValueError
+        raise ValueError, 'Malformed decoded notice'
     return plain
 
 def _hash(str):
+    if not hasattr(settings, 'SECRET_KEY') or not len(settings.SECRET_KEY):
+        raise ValueError, 'SECRET_KEY needs to be defined in your settings.py'
     return sha_constructor(str + settings.SECRET_KEY).hexdigest()
 
 class HttpResponseRedirectWithNotice(HttpResponseRedirect):

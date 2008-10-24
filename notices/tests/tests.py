@@ -25,7 +25,16 @@ class NoticesTestCase(NoticesTestHelper):
         self.assert_contains_notices(r2)
 
     def test_should_not_display_unsupported_notice_types(self):
+        backup = settings.NOTICE_TYPES
         settings.NOTICE_TYPES = ('soletype')
         r1, r2 = self.get_with_redirect('/redirect_with_notice/')
         self.assert_not_contains_notices(r2)
-        settings.NOTICE_TYPES = None
+        settings.NOTICE_TYPES = backup
+
+    def test_should_raise_error_if_secret_key_is_empty(self):
+        backup = settings.SECRET_KEY
+        settings.SECRET_KEY = ""
+        self.assertRaises(ValueError,
+                          self.get_with_redirect,
+                          '/redirect_with_notice/')
+        settings.SECRET_KEY = backup
