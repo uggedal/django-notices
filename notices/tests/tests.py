@@ -40,8 +40,13 @@ class NoticesTestCase(NoticesTestHelper):
                           '/redirect_with_notice/')
         settings.SECRET_KEY = backup
 
-    def test_should_not_display_tampered_notice(self):
+    def test_should_not_display_shorted_notice(self):
         str = pack('Perfectly legal notice')
         print str[:-2]
         r = self.client.get('/', QueryDict('_notice=' + str[:-2]))
+        self.assert_not_contains_notices(r)
+
+    def test_should_not_display_tampered_notice(self):
+        str = pack('Perfectly legal notice')
+        r = self.client.get('/', QueryDict('_notice=' + str[:-1] + 'x'))
         self.assert_not_contains_notices(r)
