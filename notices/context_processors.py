@@ -12,5 +12,5 @@ def notices(request):
             return { 'notices': notices }
         else:
             return {}
-    except ValueError:
+    except (ValueError, TypeError):
         return {}

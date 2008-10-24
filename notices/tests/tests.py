@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.http import QueryDict
 from django.conf import settings
 from urlparse import urlsplit
+from notices import pack
 
 class NoticesTestHelper(TestCase):
     notice_identifier = '<ul class="notices">'
@@ -20,7 +21,7 @@ class NoticesTestHelper(TestCase):
 
 class NoticesTestCase(NoticesTestHelper):
 
-    def test_should_display_notices(self):
+    def test_should_display_notices_for_supported_types(self):
         r1, r2 = self.get_with_redirect('/redirect_with_notice/')
         self.assert_contains_notices(r2)
 
@@ -38,3 +39,9 @@ class NoticesTestCase(NoticesTestHelper):
                           self.get_with_redirect,
                           '/redirect_with_notice/')
         settings.SECRET_KEY = backup
+
+    def test_should_not_display_tampered_notice(self):
+        str = pack('Perfectly legal notice')
+        print str[:-2]
+        r = self.client.get('/', QueryDict('_notice=' + str[:-2]))
+        self.assert_not_contains_notices(r)
