@@ -50,18 +50,21 @@ Installation
 To install django-notices one have to:
 
 1. add the notices directory to the Python path
-2. add the notices template context processor to settings.py:
+2. add the notices and the auth_without_messages template context processors
+   to settings.py and disable the default auth context processor (note that
+   this currently breaks the admin in DEBUG mode):
 
     TEMPLATE_CONTEXT_PROCESSORS = (
         # These are the default Django processors.
-        # It's recommended to include these.
-        'django.core.context_processors.auth',
+        # Disable the auth core context processor..
+        #'django.core.context_processors.auth',
         'django.core.context_processors.debug',
         'django.core.context_processors.i18n',
         'django.core.context_processors.media',
         'django.core.context_processors.request',
 
         'notices.context_processors.notices',
+        'notices.context_processors.auth_without_messages',
     )
 
 
