@@ -4,10 +4,7 @@ from django.utils.hashcompat import sha_constructor
 import urllib, base64, re
 
 def allowed_notice_types():
-    if hasattr(settings, 'NOTICE_TYPES'):
-        return settings.NOTICE_TYPES
-    else:
-        return ('success', 'notice', 'error')
+    return getattr(settings, 'NOTICE_TYPES', ('success', 'notice', 'error'))
 
 def pack(str):
     return urllib.quote_plus(base64.b64encode("%s$%s" % (_hash(str), str)))
