@@ -27,6 +27,22 @@ your notice:
                 'error_message': "Counters have to be positive"
             })
 
+There is also a shortcut similar to Django's for easily handeling redirects
+with views, objects, or urls:
+
+    from notices.shortcuts import redirect
+    from django.shortcuts import render_to_response
+
+    def add_counter(req, number):
+        if number > 0:
+            Counter.objects.create(number=number)
+            notice = "Created counter with %s" % number
+            return redirect("/", success=notice)
+        else:
+            return render_to_response('form.html', {
+                'error_message': "Counters have to be positive"
+            })
+
 To handle these messages in a template one could do something like this:
 
 

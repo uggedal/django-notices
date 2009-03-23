@@ -25,6 +25,10 @@ class NoticesTestCase(NoticesTestHelper):
         r1, r2 = self.get_with_redirect('/redirect_with_notice/')
         self.assert_contains_notices(r2)
 
+    def test_should_provide_redirect_shortcut(self):
+        r1, r2 = self.get_with_redirect('/redirect_with_shortcut/')
+        self.assert_contains_notices(r2)
+
     def test_should_not_display_unsupported_notice_types(self):
         backup = settings.NOTICE_TYPES
         settings.NOTICE_TYPES = ('soletype')
